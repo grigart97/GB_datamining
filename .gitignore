@@ -108,12 +108,12 @@ celerybeat.pid
 
 # Environments
 .env
-#.venv
+.venv
 env/
 venv/
 ENV/
 env.bak/
-#venv.bak/
+venv.bak/
 
 # Spyder project settings
 .spyderproject
@@ -142,7 +142,7 @@ cython_debug/
 ### VirtualEnv template
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
-#.Python
+.Python
 [Bb]in
 [Ii]nclude
 [Ll]ib
@@ -150,7 +150,7 @@ cython_debug/
 [Ll]ocal
 [Ss]cripts
 pyvenv.cfg
-#.venv
+.venv
 pip-selfcheck.json
 
 ### JetBrains template
@@ -188,8 +188,7 @@ pip-selfcheck.json
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
 # .idea/modules.xml
- .idea/*.iml
- .idea/*.xml
+# .idea/*.iml
 # .idea/modules
 # *.iml
 # *.ipr
@@ -226,4 +225,3 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
-
