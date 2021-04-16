@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter
 
 
-class HhParsePipeline:
+class GbParsingPipeline:
     def process_item(self, item, spider):
         return item
