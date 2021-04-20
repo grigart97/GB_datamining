@@ -4,12 +4,42 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from scrapy.utils.response import response_status_message
+import time
+
+from les6.HW.avito.settings import RETRY_HTTP_CODES
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
 
-class AvitoParseSpiderMiddleware:
+class TooManyRequestsRetryMiddleware(RetryMiddleware):
+
+    def __init__(self, crawler):
+        super(TooManyRequestsRetryMiddleware, self).__init__(crawler.settings)
+        self.crawler = crawler
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler)
+
+    def process_response(self, request, response, spider):
+        if request.meta.get('dont_retry', False):
+            return response
+        elif response.status in RETRY_HTTP_CODES:
+            self.crawler.engine.pause()
+            time.sleep(60)
+            self.crawler.engine.unpause()
+            reason = response_status_message(response.status)
+            return self._retry(request, reason, spider) or response
+        elif response.status in self.retry_http_codes:
+            reason = response_status_message(response.status)
+            return self._retry(request, reason, spider) or response
+        return response
+
+
+class AvitoSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -56,7 +86,7 @@ class AvitoParseSpiderMiddleware:
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class AvitoParseDownloaderMiddleware:
+class AvitoDownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.

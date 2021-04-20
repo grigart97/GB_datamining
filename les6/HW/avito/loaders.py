@@ -20,8 +20,10 @@ post_data_query = {
 def params_to_dict(param):
     selector = Selector(text=param)
     return {
-        'name': selector.xpath('//span/text()').extract_first(),
-        'value': selector.xpath('//li/text()').extract_first()
+        'name': selector.xpath('//li/span/text()').extract_first().replace(': ', ':'),
+        'value': selector.xpath('//li/a/text()').extract_first()
+                 or
+                 ''.join(selector.xpath('//li/text()').extract())[1:-1]
     }
 
 
@@ -33,18 +35,18 @@ def ge_id(text):
     return text.split('/')[-1]
 
 
-def get_phone(text):
-    pass
+def ge_price(text):
+    return int(text)
 
 
 class AvitoLoader(ItemLoader):
     default_item_class = dict
     _id_in = MapCompose(ge_id)
     _id_out = TakeFirst()
+    url_out = TakeFirst()
     title_out = TakeFirst()
-    price_out = TakeFirst()
+    price_out = MapCompose()
     parameters_in = MapCompose(params_to_dict)
     seller_url_out = TakeFirst()
     address_in = MapCompose(del_spaces)
     address_out = TakeFirst()
-    # phone_in = MapCompose()

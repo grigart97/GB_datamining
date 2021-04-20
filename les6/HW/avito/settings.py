@@ -1,4 +1,4 @@
-# Scrapy settings for avito_parse project
+# Scrapy settings for avito project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,22 +7,20 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'avito_parse'
+BOT_NAME = 'avito'
 
-SPIDER_MODULES = ['avito_parse.spiders']
-NEWSPIDER_MODULE = 'avito_parse.spiders'
+SPIDER_MODULES = ['avito.spiders']
+NEWSPIDER_MODULE = 'avito.spiders'
 
 LOG_ENABLE = True
 LOG_LEVEL = 'DEBUG'
 
+RETRY_HTTP_CODES = [403, 429]
+
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0'
-# FAKEUSERAGENT_PROVIDERS = [
-#     'scrapy_fake_useragent.providers.FakeUserAgentProvider',  # this is the first provider we'll try
-#     'scrapy_fake_useragent.providers.FakerProvider',  # if FakeUserAgentProvider fails,
-#     # we'll use faker to generate a user-agent string for us
-#     'scrapy_fake_useragent.providers.FixedUserAgentProvider',  # fall back to USER_AGENT value
-# ]
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
@@ -32,7 +30,7 @@ CONCURRENT_REQUESTS = 16
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3.028154
+DOWNLOAD_DELAY = 2.728154
 # The download delay setting will honor only one of:
 CONCURRENT_REQUESTS_PER_DOMAIN = 8
 CONCURRENT_REQUESTS_PER_IP = 8
@@ -45,65 +43,53 @@ TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
-    'Connection': 'keep-alive',
-    'Content-Type': 'text/plain;charset=UTF-8',
-    'Host': 'www.avito.ru',
-    'Origin': 'https://www.avito.ru',
-    'TE': 'Trailers'
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
 }
-
-# ROTATING_PROXY_LIST_PATH = r'C:\Users\ga.artemov\Documents\GeekBrains\datamining\les6\proxies'
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'avito_parse.middlewares.AvitoParseSpiderMiddleware': 543,
-# }
+#SPIDER_MIDDLEWARES = {
+#    'avito.middlewares.AvitoSpiderMiddleware': 543,
+#}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 # DOWNLOADER_MIDDLEWARES = {
-#     'avito_parse.middlewares.AvitoParseDownloaderMiddleware': 543,
-#     'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
-#     'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
-#     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 #     'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
-#     'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
-#     'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
+#     'avito.middlewares.TooManyRequestsRetryMiddleware': 543,
+#    'avito.middlewares.AvitoDownloaderMiddleware': 543,
 # }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-# EXTENSIONS = {
+#EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
-# }
+#}
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'avito_parse.pipelines.AvitoParsePipeline': 300,
+   'avito.pipelines.AvitoParsePipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-# AUTOTHROTTLE_ENABLED = True
+#AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-# AUTOTHROTTLE_START_DELAY = 1
+#AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-# AUTOTHROTTLE_MAX_DELAY = 7
+#AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-# AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
-# AUTOTHROTTLE_DEBUG = True
+#AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-# HTTPCACHE_ENABLED = True
-# HTTPCACHE_EXPIRATION_SECS = 0
-# HTTPCACHE_DIR = 'httpcache'
-# HTTPCACHE_IGNORE_HTTP_CODES = []
-# HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+#HTTPCACHE_ENABLED = True
+#HTTPCACHE_EXPIRATION_SECS = 0
+#HTTPCACHE_DIR = 'httpcache'
+#HTTPCACHE_IGNORE_HTTP_CODES = []
+#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
