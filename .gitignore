@@ -4,6 +4,9 @@
 # JetBrains template
 .idea/
 
+# scrapy files
+__init__.py
+
 # Outputs
 .les1/products/
 .les1/HW/categories/
